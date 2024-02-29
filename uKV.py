@@ -1,6 +1,6 @@
 import os
 import ujson
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 
 class PersistentKV:
@@ -72,6 +72,9 @@ class PersistentKV:
             return val
         else:
             raise uKVException('INCRBY error: key value not a number')
+
+    def type(self, key):
+        return type(self.get(key))
 
    
 class uKVException(Exception):

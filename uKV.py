@@ -1,6 +1,6 @@
 import os
 import ujson
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 
 class SimpleKV:
@@ -10,7 +10,7 @@ class SimpleKV:
             try:
                 os.mkdir(storepath)
             except:
-                raise uKVException('mkdir failed for data store')
+                raise uKVException('SYSTEM: mkdir failed for data store')
     
     def exist(self, key):
         if key in os.listdir(self.storepath + '/'):
@@ -24,7 +24,7 @@ class SimpleKV:
             f.write(ujson.dumps(value))
             f.close()
         except:
-            raise uKVException('failed to write to data store')
+            raise uKVException('SYSTEM: failed to write to data store')
 
     def get(self, key):
         if  self.exist(key) is False:
@@ -33,6 +33,12 @@ class SimpleKV:
         ret = f.read()
         f.close()
         return ujson.loads(ret)
+    
+    def delete(self, key):
+        if self.exist(key) is False:
+            raise uKVException('DELETE error: key does not exist')
+        else:
+            os.remove(self.storepath + '/' + key)
     
     def dropKV(self):
         for f,_,_ in os.ilistdir(self.storepath):

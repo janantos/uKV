@@ -35,13 +35,13 @@ class SimpleKV:
         return ujson.loads(ret)
     
     def dropKV(self):
-        for f,_,_ in os.ilistdir(self.storepath):
+        for f, *_ in os.ilistdir(self.storepath):
             os.remove(self.storepath + '/' + f)
         os.rmdir(self.storepath)
 
     def keys(self):
         keys = set()
-        for key,_,_ in os.ilistdir(self.storepath):
+        for key, *_ in os.ilistdir(self.storepath):
             keys.add(key)
         return list(keys)
 
